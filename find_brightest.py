@@ -1,5 +1,7 @@
 import cv2
 
+firstx = 0
+firsty = 0
 def find_brightest(frame):
     #Findin the brightest spot in "frame"
 
@@ -12,3 +14,6 @@ def find_brightest(frame):
     (minVal, maxVal, minLoc, maxLoc) = cv2.minMaxLoc(blur)
     cv2.circle(frame, maxLoc, 5, (255, 0, 0), 2)
     point = maxLoc
+    
+    return point
+
