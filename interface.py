@@ -5,7 +5,8 @@
   
 from tkinter import *
 import cv2 
-from PIL import Image, ImageTk 
+from PIL import Image, ImageTk
+import find_brightest as bright
   
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
@@ -36,7 +37,8 @@ label_widget.pack()
 def open_camera(): 
   
     # Capture the video frame by frame 
-    _, frame = vid.read() 
+    _, frame = vid.read()
+    bright.find_brightest(frame)
   
     # Convert image from one color space to other 
     opencv_image = cv2.cvtColor(cv2.flip(frame,1), cv2.COLOR_BGR2RGBA) 
@@ -47,8 +49,8 @@ def open_camera():
     # Convert captured image to photoimage 
     photo_image = ImageTk.PhotoImage(image=captured_image) 
   
-    # Displaying photoimage in the label 
-    label_widget.photo_image = photo_image 
+    # Displaying photoimage in the label
+    label_widget.photo_image = photo_image
   
     # Configure image in the label 
     label_widget.configure(image=photo_image) 
