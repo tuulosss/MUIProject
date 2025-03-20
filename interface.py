@@ -1,8 +1,9 @@
-
+import tkinter as tk
 from customtkinter import *
 import cv2 
 from PIL import Image, ImageTk
 import find_brightest as bright
+import leftpanel as lp
   
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
@@ -19,7 +20,7 @@ print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid.get
 # Create a GUI app 
 app = CTk() 
-  
+
 # Bind the app with Escape keyboard to 
 # quit app whenever pressed 
 app.bind('<Escape>', lambda e: app.quit()) 
@@ -29,8 +30,6 @@ label_widget = CTkLabel(app,text="")
 label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8) 
 
 #Make the label_widget display at the top left of the screen
-
-  
 # Create a function to open camera and 
 # display it in the label_widget on app 
   
@@ -86,36 +85,14 @@ def open_camera():
     label_widget.photo_image = photo_image 
     # Configure image in the label 
     label_widget.configure(image=photo_image) 
-    label_widget.after(1, open_camera)
-
-def change_color(color):
-    global draw_color
-    draw_color = color
-
-button_red = CTkButton(app,text="", fg_color="red", command=lambda: change_color("red"),width=30)
-button_green = CTkButton(app,text="", fg_color="green", command=lambda: change_color("green"),width=30)
-button_blue = CTkButton(app,text="", fg_color="blue", command=lambda: change_color("blue"),width=30)
-button_black = CTkButton(app,text="", fg_color="black", command=lambda: change_color("black"),width=30)
-button_yellow = CTkButton(app,text="", fg_color="yellow", command=lambda: change_color("yellow"),width=30)
-button_green.place(x=0, y=120)
-button_blue.place(x=0, y=150)
-button_black.place(x=0, y=180)
-button_yellow.place(x=0, y=210)
-button_red.place(x=0, y=240)
-
-
-font_scale = CTkSlider(app, from_=1, to=10)
-font_scale.place(x=0, y=0)
-font_scale.set(1)
+    label_widget.after(5, open_camera)
 
 
 open_camera()
-#print(tuple(point))
-
-#canvas.create_line(point[0], point[1], point[0]+1, point[1])
+lp.drawButtons()
 button2 = CTkButton(app, text="Close Camera", command=app.quit)
 button2.pack()
-app.geometry('1920x1080')
-app.title("Camera App")
+app.title("LightDraw")
 app.attributes('-fullscreen', True)
-app.mainloop() 
+app.geometry("1920x1080")
+app.mainloop()
