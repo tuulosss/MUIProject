@@ -53,8 +53,10 @@ def open_camera():
     crd = perse.split(", ") #crd for coordinates
     #canvas.create_rectangle(int(crd[0]), int(crd[1]), int(crd[0])+5, int(crd[1])+5, fill = "black")
     if bright.firstx != 0 and bright.firsty != 0:
-        canvas.create_line(bright.firstx, bright.firsty, int(crd[0]), int(crd[1]))
-
+        canvas.create_line(bright.firstx, bright.firsty, int(crd[0]), int(crd[1]), fill = "red")
+    else:
+        pass
+    
     bright.firstx = int(crd[0])
     bright.firsty = int(crd[1])
 

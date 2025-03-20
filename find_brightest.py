@@ -20,3 +20,5 @@ def find_brightest(frame):
     if maxVal > 225:
         cv2.circle(frame, maxLoc, 5, (100, 255, 0), 2)
         point = maxLoc
+        return point
+    
