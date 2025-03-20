@@ -1,8 +1,3 @@
-# Python program to open the 
-# camera in Tkinter 
-# Import the libraries, 
-# tkinter, cv2, Image and ImageTk 
-from collections import deque
 from tkinter import *
 import cv2 
 from PIL import Image, ImageTk
@@ -45,7 +40,7 @@ canvas = Canvas(app, width=1000, height=500)
 canvaswidth = 1000
 canvasheight = 500
 canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
-canvas.pack(side=TOP, anchor="e", padx=8, pady=8)
+canvas.pack()
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -54,6 +49,7 @@ firstime = False
 def open_camera(): 
     # Capture the video frame by frame 
     _, frame = vid.read()
+    draw_size = w1.get()
     point = bright.find_brightest(frame)
     if point is not None:
         perse = str(point)
@@ -92,11 +88,18 @@ def open_camera():
     label_widget.after(1, open_camera) 
     button1.destroy()
 
-
+def big():
+    global draw_size
+    draw_size += 1
 
 # Create a button to open the camera in GUI app 
 button1 = Button(app, text="Open Camera", command=open_camera) 
-button1.pack() 
+button1.pack()
+
+w1 = Scale(app, from_=1, to=10)
+w1.place(x=0, y=0)
+w1.set(1)
+
 
 open_camera()
 #print(tuple(point))
