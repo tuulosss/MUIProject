@@ -13,7 +13,7 @@ vid = cv2.VideoCapture(0)
   
 # Declare the width and height in variables 
 width, height = 320, 180
-
+draw_size = 1
 
 # Set the width and height 
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, width) 
@@ -30,7 +30,7 @@ app.bind('<Escape>', lambda e: app.quit())
   
 # Create a label and display it on app 
 label_widget = Label(app) 
-label_widget.pack() 
+label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8) 
 
 #Make the label_widget display at the top left of the screen
 
@@ -45,9 +45,8 @@ canvas = Canvas(app, width=1000, height=500)
 canvaswidth = 1000
 canvasheight = 500
 canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
-canvas.pack()
+canvas.pack(side=TOP, anchor="e", padx=8, pady=8)
 
-label_widget.place(x=0, y=780-vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 firstime = False
@@ -61,14 +60,20 @@ def open_camera():
         perse = perse.replace("(","")
         perse = perse.replace(")","")
         
-        crd = perse.split(", ") #crd for coordinates
-        #canvas.create_rectangle(int(crd[0]), int(crd[1]), int(crd[0])+5, int(crd[1])+5, fill = "black")
+        crd = perse.split(", ")
+        
+
         distance = ((bright.firstx - int(crd[0]))**2 + (bright.firsty - int(crd[1]))**2)**0.5
-        if distance <= 300:
+
+        if distance <= 25:
             if bright.firstx != 0 and bright.firsty != 0:
-                canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = "red")
+                canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = "red", width = draw_size)
             else:
                 pass
+        else:
+            
+            bright.firstx = int(crd[0])
+            bright.firsty = int(crd[1])
             
         bright.firstx=int(crd[0])
         bright.firsty=int(crd[1])
