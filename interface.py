@@ -5,7 +5,7 @@ import find_brightest as bright
   
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
-  
+draw_color = "black"
 # Declare the width and height in variables 
 width, height = 320, 180
 draw_size = 1
@@ -49,7 +49,7 @@ firstime = False
 def open_camera(): 
     # Capture the video frame by frame 
     _, frame = vid.read()
-    draw_size = w1.get()
+    draw_size = font_scale.get()
     point = bright.find_brightest(frame)
     if point is not None:
         perse = str(point)
@@ -63,7 +63,7 @@ def open_camera():
 
         if distance <= 25:
             if bright.firstx != 0 and bright.firsty != 0:
-                canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = "red", width = draw_size)
+                canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = draw_color, width = draw_size)
             else:
                 pass
         else:
@@ -85,20 +85,27 @@ def open_camera():
     label_widget.photo_image = photo_image 
     # Configure image in the label 
     label_widget.configure(image=photo_image) 
-    label_widget.after(1, open_camera) 
-    button1.destroy()
+    label_widget.after(1, open_camera)
 
-def big():
-    global draw_size
-    draw_size += 1
+def change_color(color):
+    global draw_color
+    draw_color = color
 
-# Create a button to open the camera in GUI app 
-button1 = Button(app, text="Open Camera", command=open_camera) 
-button1.pack()
+button_red = Button(app, text="Red", command=lambda: change_color("red"))
+button_green = Button(app, text="Green", command=lambda: change_color("green"))
+button_blue = Button(app, text="Blue", command=lambda: change_color("blue"))
+button_black = Button(app, text="Black", command=lambda: change_color("black"))
+button_yellow = Button(app, text="Yellow", command=lambda: change_color("yellow"))
+button_green.place(x=0, y=120)
+button_blue.place(x=0, y=150)
+button_black.place(x=0, y=180)
+button_yellow.place(x=0, y=210)
+button_red.place(x=0, y=240)
 
-w1 = Scale(app, from_=1, to=10)
-w1.place(x=0, y=0)
-w1.set(1)
+
+font_scale = Scale(app, from_=1, to=10)
+font_scale.place(x=0, y=0)
+font_scale.set(1)
 
 
 open_camera()
