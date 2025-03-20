@@ -17,8 +17,9 @@ def find_brightest(frame):
     (minVal, maxVal, minLoc, maxLoc) = cv2.minMaxLoc(blur)
     
     #HIGHEST VALUE OF THE IMAGE. BY ADJUSTING, CHANGES THE THRESHOLD OF THE FLASHLIGHT VALUE
-    if maxVal > 225:
+    if maxVal > 235:
         cv2.circle(frame, maxLoc, 5, (100, 255, 0), 2)
         point = maxLoc
         return point
-    
+    else:
+        return None

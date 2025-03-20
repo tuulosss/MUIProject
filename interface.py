@@ -12,12 +12,15 @@ import find_brightest as bright
 vid = cv2.VideoCapture(0) 
   
 # Declare the width and height in variables 
-width, height = 100, 100
-  
+width, height = 320, 180
+
+
 # Set the width and height 
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, width) 
 vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height) 
-  
+
+print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
+vid.get
 # Create a GUI app 
 app = Tk() 
   
@@ -30,7 +33,7 @@ label_widget = Label(app)
 label_widget.pack() 
 
 #Make the label_widget display at the top left of the screen
-label_widget.place(x=0, y=600)
+
   
 # Create a function to open camera and 
 # display it in the label_widget on app 
@@ -39,26 +42,36 @@ point = 0
 #Create a black rectangle for the camera feed
 canvas = Canvas(app, width=1000, height=500)
 #make the canvas black
-canvas.create_rectangle(0, 0, 1000, 500, fill="white")
+canvaswidth = 1000
+canvasheight = 500
+canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
 canvas.pack()
+
+label_widget.place(x=0, y=780-vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
+wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
+hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 firstime = False
+    # Add a slider to resize the camera feed
 def open_camera(): 
     # Capture the video frame by frame 
     _, frame = vid.read()
     point = bright.find_brightest(frame)
-    perse = str(point)
-    perse = perse.replace("(","")
-    perse = perse.replace(")","")
-    
-    crd = perse.split(", ") #crd for coordinates
-    #canvas.create_rectangle(int(crd[0]), int(crd[1]), int(crd[0])+5, int(crd[1])+5, fill = "black")
-    if bright.firstx != 0 and bright.firsty != 0:
-        canvas.create_line(bright.firstx, bright.firsty, int(crd[0]), int(crd[1]), fill = "red")
-    else:
-        pass
-    
-    bright.firstx = int(crd[0])
-    bright.firsty = int(crd[1])
+    if point is not None:
+        perse = str(point)
+        perse = perse.replace("(","")
+        perse = perse.replace(")","")
+        
+        crd = perse.split(", ") #crd for coordinates
+        #canvas.create_rectangle(int(crd[0]), int(crd[1]), int(crd[0])+5, int(crd[1])+5, fill = "black")
+        distance = ((bright.firstx - int(crd[0]))**2 + (bright.firsty - int(crd[1]))**2)**0.5
+        if distance <= 300:
+            if bright.firstx != 0 and bright.firsty != 0:
+                canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = "red")
+            else:
+                pass
+            
+        bright.firstx=int(crd[0])
+        bright.firsty=int(crd[1])
 
     #print(point)
     # Convert image from one color space to other 
@@ -71,10 +84,8 @@ def open_camera():
     label_widget.photo_image = photo_image 
     # Configure image in the label 
     label_widget.configure(image=photo_image) 
-    label_widget.after(10, open_camera) 
+    label_widget.after(1, open_camera) 
     button1.destroy()
-
-
 
 
 
