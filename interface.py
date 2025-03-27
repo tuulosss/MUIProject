@@ -1,4 +1,4 @@
-
+import tkinter as tk
 from customtkinter import *
 import cv2 
 from PIL import Image, ImageTk
@@ -20,6 +20,7 @@ print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid.get
 # Create a GUI app 
 app = CTk() 
+
 # Bind the app with Escape keyboard to 
 # quit app whenever pressed 
 app.bind('<Escape>', lambda e: app.quit()) 
@@ -89,22 +90,6 @@ def open_camera():
 
 open_camera()
 lp.drawButtons()
-label_widget.after(1, open_camera)
- 
-def big():
-    global draw_size
-    draw_size += 1
-
-
-w1 = CTkScrollbar(app, from_=1, to=10)
-w1.place(x=0, y=0)
-w1.set(1)
-
-
-open_camera()
-#print(tuple(point))
-
-#canvas.create_line(point[0], point[1], point[0]+1, point[1])
 button2 = CTkButton(app, text="Close Camera", command=app.quit)
 button2.pack()
 app.title("LightDraw")
