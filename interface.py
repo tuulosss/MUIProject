@@ -1,6 +1,4 @@
 from tkinter import *
-from tkinter import ttk
-from CTkMenuBar import *
 from customtkinter import *
 import cv2
 from PIL import Image, ImageTk
