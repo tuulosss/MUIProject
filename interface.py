@@ -41,8 +41,12 @@ canvas = CTkCanvas(app, width=1000, height=500)
 #make the canvas black
 canvaswidth = 1000
 canvasheight = 500
-canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
+#canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
 canvas.pack()
+
+frame = CTkFrame(app, width=200, height=400)
+frame.place(x=5,y=5)
+
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -96,29 +100,30 @@ def change_color(color):
     global draw_color
     draw_color = color
 
-button_red = CTkButton(app,text="", fg_color="red", command=lambda: change_color("red"),width=30)
-button_green = CTkButton(app,text="", fg_color="green", command=lambda: change_color("green"),width=30)
-button_blue = CTkButton(app,text="", fg_color="blue", command=lambda: change_color("blue"),width=30)
-button_black = CTkButton(app,text="", fg_color="black", command=lambda: change_color("black"),width=30)
-button_yellow = CTkButton(app,text="", fg_color="yellow", command=lambda: change_color("yellow"),width=30)
-button_magenta = CTkButton(app,text="", fg_color="magenta", command=lambda: change_color("magenta"),width=30)
-button_green.place(x=5, y=370)
-button_blue.place(x=35, y=370)
-button_black.place(x=65, y=370)
-button_yellow.place(x=95, y=370)
-button_red.place(x=125, y=370)
-button_magenta.place(x=155, y=370)
+button_red = CTkButton(frame,text="", fg_color="red", command=lambda: change_color("red"),width=30)
+button_green = CTkButton(frame,text="", fg_color="green", command=lambda: change_color("green"),width=30)
+button_blue = CTkButton(frame,text="", fg_color="blue", command=lambda: change_color("blue"),width=30)
+button_black = CTkButton(frame,text="", fg_color="black", command=lambda: change_color("black"),width=30)
+button_yellow = CTkButton(frame,text="", fg_color="yellow", command=lambda: change_color("yellow"),width=30)
+button_magenta = CTkButton(frame,text="", fg_color="magenta", command=lambda: change_color("magenta"),width=30)
+button_green.place(x=5, y=100)
+button_blue.place(x=35, y=100)
+button_black.place(x=65, y=100)
+button_yellow.place(x=95, y=100)
+button_red.place(x=125, y=100)
+button_magenta.place(x=155, y=100)
 
-font_scale = CTkSlider(app, from_=1, to=30, width=185)
-font_scale.place(x=5, y=320)
+font_scale = CTkSlider(frame, from_=1, to=30, width=185)
+font_scale.place(x=5, y=50)
 font_scale.set(10)
 
-draw_sizetext = CTkLabel(app,text="Draw size: "+str(font_scale.get()), justify=LEFT, anchor='w')
-draw_sizetext.place(x=5, y=290)
+draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w')
+draw_sizetext.place(x=50, y=20)
+
 
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
-draw_colortext = CTkLabel(app,text="Draw color")
-draw_colortext.place(x=5, y=340)
+draw_colortext = CTkLabel(frame,text="Draw color")
+draw_colortext.place(x=65, y=70)
 
 open_camera()
 #print(tuple(point))
@@ -128,12 +133,12 @@ button2 = CTkButton(app, text="Close App", command=app.quit)
 button2.pack()
 
 
-colorpicker = CTkColorPicker(app, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
-colorpicker.place(x=5, y=400)
+colorpicker = CTkColorPicker(frame, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
+colorpicker.place(x=5, y=130)
 colorpicker.slider.configure(height = 20)
 
 
 app.geometry('1920x1080')
 app.title("Camera App")
 app.attributes('-fullscreen', True)
-app.mainloop() 
+app.mainloop()
