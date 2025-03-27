@@ -109,7 +109,7 @@ button_yellow.place(x=95, y=370)
 button_red.place(x=125, y=370)
 button_magenta.place(x=155, y=370)
 
-font_scale = CTkSlider(app, from_=1, to=30)
+font_scale = CTkSlider(app, from_=1, to=30, width=185)
 font_scale.place(x=5, y=320)
 font_scale.set(10)
 
@@ -130,7 +130,7 @@ button2.pack()
 
 colorpicker = CTkColorPicker(app, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
 colorpicker.place(x=5, y=400)
-
+colorpicker.slider.configure(height = 20)
 
 
 app.geometry('1920x1080')
