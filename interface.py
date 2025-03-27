@@ -3,6 +3,7 @@ from customtkinter import *
 import cv2 
 from PIL import Image, ImageTk
 import find_brightest as bright
+from CTkColorPicker import *
   
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
@@ -46,11 +47,14 @@ canvas.pack()
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 firstime = False
+
     # Add a slider to resize the camera feed
 def open_camera(): 
     # Capture the video frame by frame 
     _, frame = vid.read()
     draw_size = font_scale.get()
+    draw_sizetext.configure(text = "Draw size: "+str(int(font_scale.get()))+" px")
+
     point = bright.find_brightest(frame)
     if point is not None:
         perse = str(point)
@@ -64,7 +68,7 @@ def open_camera():
 
         if distance <= 25:
             if bright.firstx != 0 and bright.firsty != 0:
-                canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = draw_color, width = draw_size)
+                canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = draw_color, width = draw_size, capstyle=ROUND)
             else:
                 pass
         else:
@@ -97,24 +101,38 @@ button_green = CTkButton(app,text="", fg_color="green", command=lambda: change_c
 button_blue = CTkButton(app,text="", fg_color="blue", command=lambda: change_color("blue"),width=30)
 button_black = CTkButton(app,text="", fg_color="black", command=lambda: change_color("black"),width=30)
 button_yellow = CTkButton(app,text="", fg_color="yellow", command=lambda: change_color("yellow"),width=30)
-button_green.place(x=0, y=120)
-button_blue.place(x=0, y=150)
-button_black.place(x=0, y=180)
-button_yellow.place(x=0, y=210)
-button_red.place(x=0, y=240)
+button_magenta = CTkButton(app,text="", fg_color="magenta", command=lambda: change_color("magenta"),width=30)
+button_green.place(x=5, y=370)
+button_blue.place(x=35, y=370)
+button_black.place(x=65, y=370)
+button_yellow.place(x=95, y=370)
+button_red.place(x=125, y=370)
+button_magenta.place(x=155, y=370)
 
+font_scale = CTkSlider(app, from_=1, to=30)
+font_scale.place(x=5, y=320)
+font_scale.set(10)
 
-font_scale = CTkSlider(app, from_=1, to=10)
-font_scale.place(x=0, y=0)
-font_scale.set(1)
+draw_sizetext = CTkLabel(app,text="Draw size: "+str(font_scale.get()), justify=LEFT, anchor='w')
+draw_sizetext.place(x=5, y=290)
 
+#draw_sizetext._label.place(relx=0,anchor='w',y=290)
+draw_colortext = CTkLabel(app,text="Draw color")
+draw_colortext.place(x=5, y=340)
 
 open_camera()
 #print(tuple(point))
 
 #canvas.create_line(point[0], point[1], point[0]+1, point[1])
-button2 = CTkButton(app, text="Close Camera", command=app.quit)
+button2 = CTkButton(app, text="Close App", command=app.quit)
 button2.pack()
+
+
+colorpicker = CTkColorPicker(app, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
+colorpicker.place(x=5, y=400)
+
+
+
 app.geometry('1920x1080')
 app.title("Camera App")
 app.attributes('-fullscreen', True)
