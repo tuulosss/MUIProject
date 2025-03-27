@@ -68,8 +68,8 @@ canvasheight = 500
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
 canvas.place(x=500,y=30)
 
-frame = CTkFrame(app, width=200, height=400)
-frame.place(x=5,y=30)
+frame = CTkFrame(app, width=200, height=450)
+frame.place(x=5,y=5)
 
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -124,17 +124,36 @@ def change_color(color):
     global draw_color
     draw_color = color
 
-button_red = CTkButton(frame,text="", fg_color="red", command=lambda: change_color("red"),width=30)
-button_green = CTkButton(frame,text="", fg_color="green", command=lambda: change_color("green"),width=30)
-button_blue = CTkButton(frame,text="", fg_color="blue", command=lambda: change_color("blue"),width=30)
-button_black = CTkButton(frame,text="", fg_color="black", command=lambda: change_color("black"),width=30)
-button_yellow = CTkButton(frame,text="", fg_color="yellow", command=lambda: change_color("yellow"),width=30)
-button_magenta = CTkButton(frame,text="", fg_color="magenta", command=lambda: change_color("magenta"),width=30)
-button_green.place(x=5, y=100)
-button_blue.place(x=35, y=100)
-button_black.place(x=65, y=100)
-button_yellow.place(x=95, y=100)
-button_red.place(x=125, y=100)
+favorites_list = ["red", "green", "blue", "black", "yellow", "magenta"]
+
+def update_list(new_color):
+    global favorites_list
+    global buttons_list
+    favorites_list.pop(0)
+    favorites_list.append(new_color)
+
+    for i, button in enumerate(buttons_list):
+        button.configure(fg_color=favorites_list[i])
+        print(favorites_list[i])
+
+
+
+button_add_favorite = CTkButton(frame, text="Add to favorites", fg_color="gray", command=lambda: update_list(draw_color), width=150)
+button_add_favorite.place(x=22, y=400)
+
+button_red = CTkButton(frame,text="", fg_color=favorites_list[0], command=lambda: change_color(favorites_list[0]),width=30)
+button_green = CTkButton(frame,text="", fg_color=favorites_list[1], command=lambda: change_color(favorites_list[1]),width=30)
+button_blue = CTkButton(frame,text="", fg_color=favorites_list[2], command=lambda: change_color(favorites_list[2]),width=30)
+button_black = CTkButton(frame,text="", fg_color=favorites_list[3], command=lambda: change_color(favorites_list[3]),width=30)
+button_yellow = CTkButton(frame,text="", fg_color=favorites_list[4], command=lambda: change_color(favorites_list[4]),width=30)
+button_magenta = CTkButton(frame,text="", fg_color=favorites_list[5], command=lambda: change_color(favorites_list[5]),width=30)
+buttons_list = [button_red, button_green, button_blue, button_black, button_yellow, button_magenta]
+
+button_red.place(x=5, y=100)
+button_green.place(x=35, y=100)
+button_blue.place(x=65, y=100)
+button_black.place(x=95, y=100)
+button_yellow.place(x=125, y=100)
 button_magenta.place(x=155, y=100)
 
 font_scale = CTkSlider(frame, from_=1, to=30, width=185)
