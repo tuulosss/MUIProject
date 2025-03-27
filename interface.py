@@ -1,4 +1,4 @@
-
+from CTkMenuBar import *
 from customtkinter import *
 import cv2 
 from PIL import Image, ImageTk
@@ -127,12 +127,14 @@ open_camera()
 button2 = CTkButton(app, text="Close App", command=app.quit)
 button2.pack()
 
-
 colorpicker = CTkColorPicker(app, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
 colorpicker.place(x=5, y=400)
+colorpicker.slider.configure(height = 20)
 
 
-
+menu = CTkTitleMenu(master=app)
+menu.add_cascade("Menu")
+app.config(menu=menu)
 app.geometry('1920x1080')
 app.title("Camera App")
 app.attributes('-fullscreen', True)
