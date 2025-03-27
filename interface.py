@@ -1,10 +1,13 @@
+from tkinter import *
+from tkinter import ttk
 from CTkMenuBar import *
 from customtkinter import *
-import cv2 
+import cv2
 from PIL import Image, ImageTk
 import find_brightest as bright
 from CTkColorPicker import *
-  
+
+
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
 draw_color = "black"
@@ -20,9 +23,32 @@ print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid.get
 # Create a GUI app 
 app = CTk() 
-  
-# Bind the app with Escape keyboard to 
-# quit app whenever pressed 
+# Create the Menu Bar
+
+menu = Menu(app, tearoff=0, bg="#333333", fg="white", activebackground="#555555", activeforeground="white")
+app.config(menu=menu)
+
+# Create a File menu
+file_menu = Menu(menu, tearoff=0)
+menu.add_cascade(label="File", menu=file_menu)
+
+def new_command():
+    print("New file created")
+
+def open_command():
+    print("Open file dialog")
+
+def save_command():
+    print("Save file")
+
+# Add menu options
+file_menu.add_command(label="New", command=new_command)
+file_menu.add_command(label="Open", command=open_command)
+file_menu.add_command(label="Save", command=save_command)
+file_menu.add_separator()
+file_menu.add_command(label="Exit", command=app.quit)
+
+
 app.bind('<Escape>', lambda e: app.quit()) 
   
 # Create a label and display it on app 
@@ -42,10 +68,10 @@ canvas = CTkCanvas(app, width=1000, height=500)
 canvaswidth = 1000
 canvasheight = 500
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
-canvas.pack()
+canvas.place(x=500,y=30)
 
 frame = CTkFrame(app, width=200, height=400)
-frame.place(x=5,y=5)
+frame.place(x=5,y=30)
 
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -127,20 +153,20 @@ draw_colortext.place(x=65, y=70)
 
 open_camera()
 #print(tuple(point))
-
+    
 #canvas.create_line(point[0], point[1], point[0]+1, point[1])
 button2 = CTkButton(app, text="Close App", command=app.quit)
-button2.pack()
+button2.place(x= 950, y = 550)
 
+def new_command():
+    print("New file")
 
 colorpicker = CTkColorPicker(frame, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
 colorpicker.place(x=5, y=130)
 colorpicker.slider.configure(height = 20)
 
-menu = CTkTitleMenu(master=app)
-menu.add_cascade("Menu")
-app.config(menu=menu)
+deactivate_automatic_dpi_awareness()
 app.geometry('1920x1080')
 app.title("Camera App")
-app.attributes('-fullscreen', True)
+app.after(1, lambda: app.state('zoomed'))
 app.mainloop()
