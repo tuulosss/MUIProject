@@ -1,16 +1,20 @@
 from tkinter import *
 from customtkinter import *
 import cv2
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageGrab
 import find_brightest as bright
 from CTkColorPicker import *
 
+
+screensize = ImageGrab.grab().size
+buw = screensize[0]/1920
+buh = screensize[1]/1080
 
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
 draw_color = "black"
 # Declare the width and height in variables 
-width, height = 320, 180
+width, height = 320*buw, 180*buh
 draw_size = 1
 
 # Set the width and height 
@@ -22,6 +26,7 @@ vid.get
 # Create a GUI app 
 app = CTk() 
 # Create the Menu Bar
+
 
 menu = Menu(app, tearoff=0, bg="#333333", fg="white", activebackground="#555555", activeforeground="white")
 app.config(menu=menu)
@@ -61,15 +66,15 @@ label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8)
   
 point = 0
 #Create a black rectangle for the camera feed
-canvas = CTkCanvas(app, width=1000, height=500)
+canvas = CTkCanvas(app, width=1000*buw, height=500*buh)
 #make the canvas black
-canvaswidth = 1000
-canvasheight = 500
+canvaswidth = 1000*buw
+canvasheight = 500*buh
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
-canvas.place(x=500,y=30)
+canvas.place(x=500*buw,y=30*buh)
 
-frame = CTkFrame(app, width=200, height=450)
-frame.place(x=5,y=5)
+frame = CTkFrame(app, width=250*buw, height=550*buh)
+frame.place(x=5*buw,y=5*buh)
 
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -124,7 +129,7 @@ def change_color(color):
     global draw_color
     draw_color = color
 
-favorites_list = ["red", "green", "blue", "black", "yellow", "magenta"]
+favorites_list = ["red", "green", "blue", "black", "yellow", "magenta", "saddle brown"]
 
 def update_list(new_color):
     global favorites_list
@@ -138,52 +143,59 @@ def update_list(new_color):
 
 
 
-button_add_favorite = CTkButton(frame, text="Add to favorites", fg_color="gray", command=lambda: update_list(draw_color), width=150)
-button_add_favorite.place(x=22, y=400)
+button_add_favorite = CTkButton(frame, text="Add to favorites", fg_color="gray", command=lambda: update_list(draw_color), width=150*buw)
+button_add_favorite.place(x=22*buw, y=500*buh)
 
-button_red = CTkButton(frame,text="", fg_color=favorites_list[0], command=lambda: change_color(favorites_list[0]),width=30)
-button_green = CTkButton(frame,text="", fg_color=favorites_list[1], command=lambda: change_color(favorites_list[1]),width=30)
-button_blue = CTkButton(frame,text="", fg_color=favorites_list[2], command=lambda: change_color(favorites_list[2]),width=30)
-button_black = CTkButton(frame,text="", fg_color=favorites_list[3], command=lambda: change_color(favorites_list[3]),width=30)
-button_yellow = CTkButton(frame,text="", fg_color=favorites_list[4], command=lambda: change_color(favorites_list[4]),width=30)
-button_magenta = CTkButton(frame,text="", fg_color=favorites_list[5], command=lambda: change_color(favorites_list[5]),width=30)
-buttons_list = [button_red, button_green, button_blue, button_black, button_yellow, button_magenta]
+button_red = CTkButton(frame,text="", fg_color=favorites_list[0], command=lambda: change_color(favorites_list[0]),width=30*buw)
+button_green = CTkButton(frame,text="", fg_color=favorites_list[1], command=lambda: change_color(favorites_list[1]),width=30*buw)
+button_blue = CTkButton(frame,text="", fg_color=favorites_list[2], command=lambda: change_color(favorites_list[2]),width=30*buw)
+button_black = CTkButton(frame,text="", fg_color=favorites_list[3], command=lambda: change_color(favorites_list[3]),width=30*buw)
+button_yellow = CTkButton(frame,text="", fg_color=favorites_list[4], command=lambda: change_color(favorites_list[4]),width=30*buw)
+button_magenta = CTkButton(frame,text="", fg_color=favorites_list[5], command=lambda: change_color(favorites_list[5]),width=30*buw)
+button_brown = CTkButton(frame,text="", fg_color=favorites_list[6], command=lambda: change_color(favorites_list[6]),width=30*buw)
+buttons_list = [button_red, button_green, button_blue, button_black, button_yellow, button_magenta, button_brown]
 
-button_red.place(x=5, y=100)
-button_green.place(x=35, y=100)
-button_blue.place(x=65, y=100)
-button_black.place(x=95, y=100)
-button_yellow.place(x=125, y=100)
-button_magenta.place(x=155, y=100)
+button_red.place(x=5*buw, y=100*buh)
+button_green.place(x=35*buw, y=100*buh)
+button_blue.place(x=65*buw, y=100*buh)
+button_black.place(x=95*buw, y=100*buh)
+button_yellow.place(x=125*buw, y=100*buh)
+button_magenta.place(x=155*buw, y=100*buh)
+button_brown.place(x=185*buw, y=100*buh)
 
-font_scale = CTkSlider(frame, from_=1, to=30, width=185)
-font_scale.place(x=5, y=50)
+font_scale = CTkSlider(frame, from_=1, to=30, width=185*buw)
+font_scale.place(x=5*buw, y=50*buh)
 font_scale.set(10)
 
 draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w')
-draw_sizetext.place(x=50, y=20)
+draw_sizetext.place(x=50*buw, y=20*buh)
 
 
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
 draw_colortext = CTkLabel(frame,text="Draw color")
-draw_colortext.place(x=65, y=70)
+draw_colortext.place(x=65*buw, y=70*buh)
 
 open_camera()
 #print(tuple(point))
     
 #canvas.create_line(point[0], point[1], point[0]+1, point[1])
-button2 = CTkButton(app, text="Close App", command=app.quit)
-button2.place(x= 950, y = 550)
+'''button2 = CTkButton(app, text="Close App", command=app.quit)
+button2.place(x= 950, y = 550)'''
 
 def new_command():
     print("New file")
 
-colorpicker = CTkColorPicker(frame, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
-colorpicker.place(x=5, y=130)
-colorpicker.slider.configure(height = 20)
+colorpicker = CTkColorPicker(frame, width=250*buw, height=250*buh,orientation="horizontal",  command=lambda e: change_color(e) )
+colorpicker.place(x=5*buw, y=130*buh)
+colorpicker.slider.configure(height = 20*buh)
 
-deactivate_automatic_dpi_awareness()
-app.geometry('1920x1080')
+#deactivate_automatic_dpi_awareness()
+wi = str(ImageGrab.grab().size[0])
+he = str(ImageGrab.grab().size[1])
+print(wi, he)
+
+app.geometry(wi + "x" + he)
 app.title("Camera App")
+app.resizable(False, False)
 app.after(1, lambda: app.state('zoomed'))
 app.mainloop()
