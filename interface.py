@@ -178,7 +178,12 @@ font_scale.set(10)
 draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w')
 draw_sizetext.place(x=50*buw, y=20*buh)
 
+catlabel = CTkLabel(app,text="")
+cat_image = CTkImage(light_image=Image.open("kissa.png"), dark_image=Image.open("kissa.png"),size=(300*buw,300*buh))
 
+catlabel.configure(image=cat_image,height=100*buh,width=100*buw)
+
+catlabel.place(x=1220*buw,y=20*buh)
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
 draw_colortext = CTkLabel(frame,text="Draw color")
 draw_colortext.place(x=65*buw, y=70*buh)
