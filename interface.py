@@ -20,7 +20,10 @@ vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid.get
 # Create a GUI app 
-app = CTk() 
+app = CTk()
+
+print(app.winfo_screenwidth(), app.winfo_screenheight())
+1920,1080
 # Create the Menu Bar
 
 menu = Menu(app, tearoff=0, bg="#333333", fg="white", activebackground="#555555", activeforeground="white")
@@ -31,13 +34,18 @@ file_menu = Menu(menu, tearoff=0)
 menu.add_cascade(label="File", menu=file_menu)
 
 def new_command():
-    print("New file created")
+    global canvas
+    canvas.destroy()
+    canvas = CTkCanvas(app, width=1000, height=500)
+    canvas.place(x=500, y=30)
+    print("Canvas has been reset")
 
 def open_command():
-    print("Open file dialog")
+    global canvas
+    print("File opened")
 
 def save_command():
-    print("Save file")
+    print("File saves")
 
 # Add menu options
 file_menu.add_command(label="New", command=new_command)
@@ -62,13 +70,14 @@ label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8)
 point = 0
 #Create a black rectangle for the camera feed
 canvas = CTkCanvas(app, width=1000, height=500)
+canvas.place(x=500,y=30)
+
 #make the canvas black
 canvaswidth = 1000
 canvasheight = 500
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
-canvas.place(x=500,y=30)
 
-frame = CTkFrame(app, width=200, height=450)
+frame = CTkFrame(app, width=238, height=550)
 frame.place(x=5,y=5)
 
 
@@ -172,11 +181,6 @@ open_camera()
 #print(tuple(point))
     
 #canvas.create_line(point[0], point[1], point[0]+1, point[1])
-button2 = CTkButton(app, text="Close App", command=app.quit)
-button2.place(x= 950, y = 550)
-
-def new_command():
-    print("New file")
 
 colorpicker = CTkColorPicker(frame, width=257, height=250,orientation="horizontal",  command=lambda e: change_color(e) )
 colorpicker.place(x=5, y=130)
@@ -184,6 +188,7 @@ colorpicker.slider.configure(height = 20)
 
 deactivate_automatic_dpi_awareness()
 app.geometry('1920x1080')
+app.resizable(False, False)
 app.title("Camera App")
 app.after(1, lambda: app.state('zoomed'))
 app.mainloop()
