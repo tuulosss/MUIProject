@@ -24,7 +24,10 @@ vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid.get
 # Create a GUI app 
-app = CTk() 
+app = CTk()
+
+print(app.winfo_screenwidth(), app.winfo_screenheight())
+1920,1080
 # Create the Menu Bar
 
 
@@ -36,13 +39,18 @@ file_menu = Menu(menu, tearoff=0)
 menu.add_cascade(label="File", menu=file_menu)
 
 def new_command():
-    print("New file created")
+    global canvas
+    canvas.destroy()
+    canvas = CTkCanvas(app, width=1000, height=500)
+    canvas.place(x=500, y=30)
+    print("Canvas has been reset")
 
 def open_command():
-    print("Open file dialog")
+    global canvas
+    print("File opened")
 
 def save_command():
-    print("Save file")
+    print("File saves")
 
 # Add menu options
 file_menu.add_command(label="New", command=new_command)
@@ -179,11 +187,6 @@ open_camera()
 #print(tuple(point))
     
 #canvas.create_line(point[0], point[1], point[0]+1, point[1])
-'''button2 = CTkButton(app, text="Close App", command=app.quit)
-button2.place(x= 950, y = 550)'''
-
-def new_command():
-    print("New file")
 
 colorpicker = CTkColorPicker(frame, width=250*buw, height=250*buh,orientation="horizontal",  command=lambda e: change_color(e) )
 colorpicker.place(x=5*buw, y=130*buh)
