@@ -17,7 +17,7 @@ buh = screensize[1]/1080
 vid = cv2.VideoCapture(0) 
 draw_color = "black"
 # Declare the width and height in variables 
-width, height = 320*buw, 180*buh
+width, height = 640*buw, 360*buh
 draw_size = 1
 
 # Set the width and height 
@@ -54,7 +54,24 @@ def new_command():
 
 def open_command():
     global canvas
-    print("File opened")
+
+    try:
+        img_path = "kissa2.png"
+        im = Image.open(img_path)
+        img_width, img_height = im.size
+        if img_width > 1000 or img_height > 500:
+            while img_width > 1000 or img_height > 500: 
+                img_width *= .99
+                img_height *= .99
+            im = im.resize((int(img_width),int(img_height)))
+        
+        img = ImageTk.PhotoImage(im)
+        canvas.img = img
+        canvas.create_image(1000/2, 500/2, image=img, anchor=CENTER)
+    except: 
+        print("ERROR")
+
+
 
 def save_command():
     global canvas
@@ -222,7 +239,7 @@ catlabel = CTkLabel(app,text="")
 cat_image = CTkImage(light_image=Image.open("kissa.png"), dark_image=Image.open("kissa.png"),size=(300*buw,300*buh))
 
 catlabel.configure(image=cat_image,height=100*buh,width=100*buw)
-catlabel.place(x=1220*buw,y=20*buh)
+catlabel.place(relx=0.5*buw, rely=0.8, anchor=CENTER)
 
 catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8) """
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
