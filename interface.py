@@ -13,6 +13,8 @@ screensize = ImageGrab.grab().size
 buw = screensize[0]/1920
 buh = screensize[1]/1080
 
+
+print("Screensize is = ", screensize[1])
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
 draw_color = "black"
@@ -98,32 +100,31 @@ file_menu.add_command(label="Exit", command=app.quit)
 
 
 app.bind('<Escape>', lambda e: app.quit()) 
+
   
 # Create a label and display it on app 
-label_widget = CTkLabel(app,text="") 
-label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8) 
+camera = CTkLabel(app,text="") 
+camera.pack(side=BOTTOM, anchor="e", padx=20 , pady=8) 
 
-#Make the label_widget display at the top left of the screen
 
-  
 # Create a function to open camera and 
-# display it in the label_widget on app 
+# display it in the camera on app 
   
 point = 0
 #Create a black rectangle for the camera feed
-canvas = CTkCanvas(app, width=1000, height=500)
+canvas = CTkCanvas(app, width=app.winfo_screenwidth()-100, height = app.winfo_screenheight()-245)
 #make the canvas black
-canvaswidth = 1000
-canvasheight = 500
+canvaswidth = app.winfo_screenwidth()-100
+canvasheight = app.winfo_screenheight()-245
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
 canvas.place(x=screensize[0]/2-500,y=30)
 
 #height = app.winfo_screenheight()
-frame = CTkFrame(app, width=350, height=screensize[1]-290)
+frame = CTkFrame(app, width=350, height=app.winfo_screenheight()-75)
 frame.place(x = 180, rely=0.51, anchor = CENTER)
 
 c_frame = CTkFrame(frame, width=350, height = 35)
-c_frame.place(x = 174, rely=0.18, anchor = CENTER)
+c_frame.place(x = 179, rely=0.18, anchor = CENTER)
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -168,10 +169,10 @@ def open_camera():
     # Convert captured image to photoimage 
     photo_image = ImageTk.PhotoImage(image=captured_image)
     # Displaying photoimage in the label 
-    label_widget.photo_image = photo_image 
+    camera.photo_image = photo_image 
     # Configure image in the label 
-    label_widget.configure(image=photo_image) 
-    label_widget.after(1, open_camera)
+    camera.configure(image=photo_image) 
+    camera.after(1, open_camera)
 
 def change_color(color):
     global draw_color
