@@ -49,29 +49,30 @@ file_menu = Menu(menu, tearoff=0)
 menu.add_cascade(label="File", menu=file_menu)
 
 def new_command():
-    global canvas
+    global canvaswidth, canvasheight, canvas
     stop_drawing()
     canvas.destroy()
-    canvas = CTkCanvas(app, width=1000, height=500)
+    canvas = CTkCanvas(app, width=canvaswidth, height=canvasheight)
     canvas.place(x=screensize[0]/2-500,y=30)
     print("Canvas has been reset")
 
 def open_command():
-    global canvas
+    global canvaswidth, canvasheight, canvas
+    stop_drawing()
     path = fd.askopenfilename()
     try:
         img_path = path
         im = Image.open(img_path)
         img_width, img_height = im.size
-        if img_width > 1000 or img_height > 500:
-            while img_width > 1000 or img_height > 500: 
+        if img_width > canvaswidth or img_height > canvasheight:
+            while img_width > canvaswidth or img_height > canvasheight: 
                 img_width *= .99
                 img_height *= .99
             im = im.resize((int(img_width),int(img_height)))
         
         img = ImageTk.PhotoImage(im)
         canvas.img = img
-        canvas.create_image(1000/2, 500/2, image=img, anchor=CENTER)
+        canvas.create_image(canvaswidth/2, canvasheight/2, image=img, anchor=CENTER)
     except: 
         print("ERROR")
 
