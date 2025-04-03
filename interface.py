@@ -47,12 +47,15 @@ app.config(menu=menu)
 # Create a File menu
 file_menu = Menu(menu, tearoff=0)
 menu.add_cascade(label="File", menu=file_menu)
+argh = app.winfo_screenwidth()-1536
+argh2 = app.winfo_screenheight() - 864
+
 
 def new_command():
     global canvas
     stop_drawing()
     canvas.destroy()
-    canvas = CTkCanvas(app, width=1000, height=500)
+    canvas = CTkCanvas(app, width=canvaswidth, height=canvasheight)
     canvas.place(x=screensize[0]/2-500,y=30)
     print("Canvas has been reset")
 
@@ -119,10 +122,10 @@ camera.pack(side=BOTTOM, anchor="e", padx=20 , pady=8)
   
 point = 0
 #Create a black rectangle for the camera feed
-canvas = CTkCanvas(app, width=app.winfo_screenwidth()-100, height = app.winfo_screenheight()-245)
+canvas = CTkCanvas(app, width=app.winfo_screenwidth()-100-argh, height = app.winfo_screenheight()-245-argh2)
 #make the canvas black
-canvaswidth = app.winfo_screenwidth()-100
-canvasheight = app.winfo_screenheight()-245
+canvaswidth = app.winfo_screenwidth()-100-argh
+canvasheight = app.winfo_screenheight()-245 -argh2
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
 canvas.place(x=screensize[0]/2-500,y=30)
 
