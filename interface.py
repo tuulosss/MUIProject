@@ -52,7 +52,7 @@ argh2 = app.winfo_screenheight() - 864
 
 
 def new_command():
-    global canvas
+    global canvaswidth, canvasheight, canvas
     stop_drawing()
     canvas.destroy()
     canvas = CTkCanvas(app, width=canvaswidth, height=canvasheight)
@@ -60,21 +60,22 @@ def new_command():
     print("Canvas has been reset")
 
 def open_command():
-    global canvas
+    global canvaswidth, canvasheight, canvas
+    stop_drawing()
     path = fd.askopenfilename()
     try:
         img_path = path
         im = Image.open(img_path)
         img_width, img_height = im.size
-        if img_width > 1000 or img_height > 500:
-            while img_width > 1000 or img_height > 500: 
+        if img_width > canvaswidth or img_height > canvasheight:
+            while img_width > canvaswidth or img_height > canvasheight: 
                 img_width *= .99
                 img_height *= .99
             im = im.resize((int(img_width),int(img_height)))
         
         img = ImageTk.PhotoImage(im)
         canvas.img = img
-        canvas.create_image(1000/2, 500/2, image=img, anchor=CENTER)
+        canvas.create_image(canvaswidth/2, canvasheight/2, image=img, anchor=CENTER)
     except: 
         print("ERROR")
 
@@ -246,14 +247,15 @@ textx = 95
 draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w', font=("Arial", 20, "bold"),)
 draw_sizetext.place(relx = 0.5, rely = 0.02, anchor = CENTER )
 
-""" 
+
 catlabel = CTkLabel(app,text="")
-cat_image = CTkImage(light_image=Image.open("kissa.png"), dark_image=Image.open("kissa.png"),size=(300*buw,300*buh))
+cat_image = CTkImage(light_image=Image.open("marvin.png"), dark_image=Image.open("marvin.png"),size=(630*buw,290*buh))
 
-catlabel.configure(image=cat_image,height=100*buh,width=100*buw)
-catlabel.place(relx=0.5*buw, rely=0.8, anchor=CENTER)
+catlabel.configure(image=cat_image,height=80*buh,width=80*buw)
+catlabel.place(relx=0.65*buw, rely=0.82, anchor='e')
 
-catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8) """
+#catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8)
+
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
 draw_colortext = CTkLabel(frame,text="Draw color", font=("Arial", 20, "bold"))
 draw_colortext.place(relx = 0.5, rely = 0.14, anchor = CENTER)
