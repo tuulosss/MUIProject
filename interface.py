@@ -4,6 +4,8 @@ import cv2
 from PIL import Image, ImageTk, ImageGrab
 import find_brightest as bright
 from CTkColorPicker import *
+import os
+import datetime
 
 drawing = True
 
@@ -55,8 +57,21 @@ def open_command():
     print("File opened")
 
 def save_command():
+    global canvas
     print("File saves")
+    canvas_x = canvas.winfo_rootx()
+    canvas_y = canvas.winfo_rooty()
+    imagewidth = canvas.winfo_width()
+    imageheight = canvas.winfo_height()
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filename = f"LightDraw_{timestamp}.png"
+    temp_path = os.getcwd()+"\\saved images"
+    file_path = os.path.join(temp_path,filename)
+    image = ImageGrab.grab(bbox=(canvas_x, canvas_y, canvas_x+imagewidth, canvas_y+imageheight))
 
+    image.save(file_path)
+    print(f"Image saved! Path: {file_path}")
+    
 # Add menu options
 file_menu.add_command(label="New", command=new_command)
 file_menu.add_command(label="Open", command=open_command)
@@ -106,11 +121,11 @@ def open_camera():
 
     point = bright.find_brightest(frame)
     if point is not None:
-        perse = str(point)
-        perse = perse.replace("(","")
-        perse = perse.replace(")","")
+        point_string = str(point)
+        point_string = point_string.replace("(","")
+        point_string = point_string.replace(")","")
         
-        crd = perse.split(", ")
+        crd = point_string.split(", ")
         
 
         distance = ((bright.firstx - int(crd[0]))**2 + (bright.firsty - int(crd[1]))**2)**0.5
@@ -157,7 +172,7 @@ def update_list(new_color):
         button.configure(fg_color=favorites_list[i])
         print(favorites_list[i])
 
-def stop_drawing(button):
+def stop_drawing():
     global button_stop_drawing
     global drawing
     drawing = not drawing
