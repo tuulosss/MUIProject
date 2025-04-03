@@ -10,6 +10,12 @@ screensize = ImageGrab.grab().size
 buw = screensize[0]/1920
 buh = screensize[1]/1080
 
+app = CTk()
+screenscale = screensize[0]/app.winfo_screenwidth()
+
+buhc = buh / screenscale
+buwc = buw / screenscale
+print("Screenscale :", screenscale)
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
 draw_color = "black"
@@ -24,7 +30,6 @@ vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid.get
 # Create a GUI app 
-app = CTk()
 
 print(app.winfo_screenwidth(), app.winfo_screenheight())
 1920,1080
@@ -42,7 +47,7 @@ def new_command():
     global canvas
     canvas.destroy()
     canvas = CTkCanvas(app, width=1000, height=500)
-    canvas.place(x=500, y=30)
+    canvas.pack(side=TOP, anchor="n")
     print("Canvas has been reset")
 
 def open_command():
@@ -63,7 +68,7 @@ file_menu.add_command(label="Exit", command=app.quit)
 app.bind('<Escape>', lambda e: app.quit()) 
   
 # Create a label and display it on app 
-label_widget = CTkLabel(app,text="") 
+label_widget = CTkLabel(app,text="")
 label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8) 
 
 #Make the label_widget display at the top left of the screen
@@ -76,10 +81,10 @@ point = 0
 #Create a black rectangle for the camera feed
 canvas = CTkCanvas(app, width=1000*buw, height=500*buh)
 #make the canvas black
-canvaswidth = 1000*buw
-canvasheight = 500*buh
+canvaswidth = 1000*buwc
+canvasheight = 500*buhc
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
-canvas.place(x=500*buw,y=30*buh)
+canvas.place(x=500*buwc,y=30*buhc)
 
 frame = CTkFrame(app, width=250*buw, height=550*buh)
 frame.place(x=5*buw,y=5*buh)
@@ -181,9 +186,9 @@ draw_sizetext.place(x=50*buw, y=20*buh)
 catlabel = CTkLabel(app,text="")
 cat_image = CTkImage(light_image=Image.open("kissa.png"), dark_image=Image.open("kissa.png"),size=(300*buw,300*buh))
 
-catlabel.configure(image=cat_image,height=100*buh,width=100*buw)
+catlabel.configure(image=cat_image,height=100/screenscale,width=100/screenscale)
 
-catlabel.place(x=1220*buw,y=20*buh)
+catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8)
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
 draw_colortext = CTkLabel(frame,text="Draw color")
 draw_colortext.place(x=65*buw, y=70*buh)
