@@ -15,6 +15,7 @@ buw = screensize[0]/1920
 buh = screensize[1]/1080
 
 
+
 print("Screensize is = ", screensize[1])
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
@@ -36,6 +37,9 @@ c_height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
 # Create a GUI app 
 app = CTk()
+
+screenscale = screensize[0]/ app.winfo_screenwidth()
+print("Screenscale is = ", screenscale)
 
 print("Screenwidth and height : ", app.winfo_screenwidth(), app.winfo_screenheight())
 # Create the Menu Bar
@@ -249,10 +253,10 @@ draw_sizetext.place(relx = 0.5, rely = 0.02, anchor = CENTER )
 
 
 catlabel = CTkLabel(app,text="")
-cat_image = CTkImage(light_image=Image.open("marvin.png"), dark_image=Image.open("marvin.png"),size=(630*buw,290*buh))
+cat_image = CTkImage(light_image=Image.open("marvin.png"), dark_image=Image.open("marvin.png"),size=(790/screenscale,360/screenscale))
 
-catlabel.configure(image=cat_image,height=80*buh,width=80*buw)
-catlabel.place(relx=0.65*buw, rely=0.82, anchor='e')
+catlabel.configure(image=cat_image)
+catlabel.place(relx=0.445, rely=0.82, anchor='center')
 
 #catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8)
 
