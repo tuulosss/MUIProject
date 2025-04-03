@@ -17,14 +17,14 @@ buh = screensize[1]/1080
 
 
 print("Screensize is = ", screensize[1])
-# Define a video capture object 
+
 vid = cv2.VideoCapture(0) 
 draw_color = "black"
-# Declare the width and height in variables 
+
 width, height = 640*buw, 360*buh
 draw_size = 1
 
-# Set the width and height 
+
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, width) 
 vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height) 
 
@@ -35,20 +35,18 @@ c_width = vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 c_height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
 
-# Create a GUI app 
 app = CTk()
 
 screenscale = screensize[0]/ app.winfo_screenwidth()
 print("Screenscale is = ", screenscale)
 
 print("Screenwidth and height : ", app.winfo_screenwidth(), app.winfo_screenheight())
-# Create the Menu Bar
 
 
 menu = Menu(app, tearoff=0, bg="#333333", fg="white", activebackground="#555555", activeforeground="white")
 app.config(menu=menu)
 
-# Create a File menu
+
 file_menu = Menu(menu, tearoff=0)
 menu.add_cascade(label="File", menu=file_menu)
 argh = app.winfo_screenwidth()-1536
@@ -94,16 +92,16 @@ def save_command():
     imageheight = canvas.winfo_height()
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-      # Valitse tallennuspolku
+
     file_path = filedialog.asksaveasfilename(
         initialfile=f"LightDraw_{timestamp}.png",
         defaultextension=".png",
         filetypes=[("PNG Files", "*.png")]
     )
 
-    if file_path:  # Tarkistetaan, että käyttäjä valitsi polun
+    if file_path:
         image = ImageGrab.grab(bbox=(canvas_x, canvas_y, canvas_x+imagewidth, canvas_y+imageheight))
-        image.save(file_path)  # Tallennetaan kuva
+        image.save(file_path)
         print(f"Image saved! Path: {file_path}")
 
 
@@ -117,18 +115,17 @@ file_menu.add_command(label="Exit", command=app.quit)
 app.bind('<Escape>', lambda e: app.quit()) 
 
   
-# Create a label and display it on app 
+
 camera = CTkLabel(app,text="") 
 camera.pack(side=BOTTOM, anchor="e", padx=20 , pady=8) 
 
 
-# Create a function to open camera and 
-# display it in the camera on app 
+
   
 point = 0
-#Create a black rectangle for the camera feed
+
 canvas = CTkCanvas(app, width=app.winfo_screenwidth()-100-argh, height = app.winfo_screenheight()-245-argh2)
-#make the canvas black
+
 canvaswidth = app.winfo_screenwidth()-100-argh
 canvasheight = app.winfo_screenheight()-245 -argh2
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
@@ -145,9 +142,9 @@ wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 firstime = False
 
-    # Add a slider to resize the camera feed
+
 def open_camera(): 
-    # Capture the video frame by frame 
+
     _, frame = vid.read()
     draw_size = font_scale.get()
     draw_sizetext.configure(text = "Draw size: "+str(int(font_scale.get()))+" px")
