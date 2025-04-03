@@ -79,15 +79,15 @@ label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8)
   
 point = 0
 #Create a black rectangle for the camera feed
-canvas = CTkCanvas(app, width=1000*buw, height=500*buh)
+canvas = CTkCanvas(app, width=1000, height=500)
 #make the canvas black
-canvaswidth = 1000*buwc
-canvasheight = 500*buhc
+canvaswidth = 1000
+canvasheight = 500
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
-canvas.place(x=500*buwc,y=30*buhc)
+canvas.place(x=screensize[0]/2-500,y=30)
 
 frame = CTkFrame(app, width=250*buw, height=550*buh)
-frame.place(x=5*buw,y=5*buh)
+frame.pack(side=LEFT, anchor = "n")
 
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
