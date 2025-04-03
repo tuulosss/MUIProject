@@ -5,17 +5,12 @@ from PIL import Image, ImageTk, ImageGrab
 import find_brightest as bright
 from CTkColorPicker import *
 
+drawing = True
 
 screensize = ImageGrab.grab().size
 buw = screensize[0]/1920
 buh = screensize[1]/1080
 
-app = CTk()
-screenscale = screensize[0]/app.winfo_screenwidth()
-
-buhc = buh / screenscale
-buwc = buw / screenscale
-print("Screenscale :", screenscale)
 # Define a video capture object 
 vid = cv2.VideoCapture(0) 
 draw_color = "black"
@@ -35,6 +30,7 @@ c_height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
 
 # Create a GUI app 
+app = CTk()
 
 print("Screenwidth and height : ", app.winfo_screenwidth(), app.winfo_screenheight())
 # Create the Menu Bar
@@ -72,7 +68,7 @@ file_menu.add_command(label="Exit", command=app.quit)
 app.bind('<Escape>', lambda e: app.quit()) 
   
 # Create a label and display it on app 
-label_widget = CTkLabel(app,text="")
+label_widget = CTkLabel(app,text="") 
 label_widget.pack(side=BOTTOM, anchor="e", padx=8, pady=8) 
 
 #Make the label_widget display at the top left of the screen
@@ -119,7 +115,7 @@ def open_camera():
 
         distance = ((bright.firstx - int(crd[0]))**2 + (bright.firsty - int(crd[1]))**2)**0.5
 
-        if distance <= 25:
+        if distance <= 25 and drawing:
             if bright.firstx != 0 and bright.firsty != 0:
                 canvas.create_line(canvaswidth-wratio*bright.firstx, hratio*bright.firsty, canvaswidth-wratio*int(crd[0]), hratio*int(crd[1]), fill = draw_color, width = draw_size, capstyle=ROUND)
             else:
@@ -161,6 +157,16 @@ def update_list(new_color):
         button.configure(fg_color=favorites_list[i])
         print(favorites_list[i])
 
+def stop_drawing(button):
+    global button_stop_drawing
+    global drawing
+    drawing = not drawing
+    if not drawing:
+        button_stop_drawing.configure(text="Start drawing")
+    else:
+        button_stop_drawing.configure(text="Stop drawing")
+
+
 
 
 button_add_favorite = CTkButton(frame, text="Add to favorites", fg_color="gray", command=lambda: update_list(draw_color), width=150*buw)
@@ -197,7 +203,8 @@ draw_sizetext.place(relx = 0.5, y=20, anchor = CENTER )
 catlabel = CTkLabel(app,text="")
 cat_image = CTkImage(light_image=Image.open("kissa.png"), dark_image=Image.open("kissa.png"),size=(300*buw,300*buh))
 
-catlabel.configure(image=cat_image,height=100/screenscale,width=100/screenscale)
+catlabel.configure(image=cat_image,height=100*buh,width=100*buw)
+catlabel.place(x=1220*buw,y=20*buh)
 
 catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8) """
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
