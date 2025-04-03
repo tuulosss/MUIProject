@@ -157,7 +157,7 @@ def update_list(new_color):
         button.configure(fg_color=favorites_list[i])
         print(favorites_list[i])
 
-def stop_drawing(button):
+def stop_drawing():
     global button_stop_drawing
     global drawing
     drawing = not drawing
@@ -169,8 +169,11 @@ def stop_drawing(button):
 
 
 
-button_add_favorite = CTkButton(frame, text="Add to favorites", fg_color="gray", command=lambda: update_list(draw_color), width=150*buw)
+button_add_favorite = CTkButton(frame, text="Add to favorites", font=("Arial", 20), fg_color="gray", command=lambda: update_list(draw_color), width=170)
 button_add_favorite.place(relx = 0.5, rely = 0.6 , anchor = CENTER)
+
+button_stop_drawing = CTkButton(frame, text="Stop drawing",font=("Arial", 20), fg_color="gray", command=lambda: stop_drawing(), width=170)
+button_stop_drawing.place(relx = 0.5, rely = 0.65 , anchor = CENTER)
 
 button_red = CTkButton(c_frame,text="", fg_color=favorites_list[0], command=lambda: change_color(favorites_list[0]),width=30*buw)
 button_green = CTkButton(c_frame,text="", fg_color=favorites_list[1], command=lambda: change_color(favorites_list[1]),width=30*buw)
@@ -196,7 +199,7 @@ font_scale.place(relx = 0.5, y=50, anchor = CENTER)
 font_scale.set(15)
 
 textx = 95
-draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w')
+draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w', font=("Arial", 20, "bold"),)
 draw_sizetext.place(relx = 0.5, y=20, anchor = CENTER )
 
 """ 
@@ -208,7 +211,7 @@ catlabel.place(x=1220*buw,y=20*buh)
 
 catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8) """
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
-draw_colortext = CTkLabel(frame,text="Draw color")
+draw_colortext = CTkLabel(frame,text="Draw color", font=("Arial", 20, "bold"))
 draw_colortext.place(relx = 0.5, y=100, anchor = CENTER)
 
 open_camera()
