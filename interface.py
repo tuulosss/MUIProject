@@ -29,10 +29,14 @@ vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
 print(vid.get(cv2.CAP_PROP_FRAME_WIDTH),vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid.get
+
+c_width = vid.get(cv2.CAP_PROP_FRAME_WIDTH)
+c_height = vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
+
+
 # Create a GUI app 
 
-print(app.winfo_screenwidth(), app.winfo_screenheight())
-1920,1080
+print("Screenwidth and height : ", app.winfo_screenwidth(), app.winfo_screenheight())
 # Create the Menu Bar
 
 
@@ -47,7 +51,7 @@ def new_command():
     global canvas
     canvas.destroy()
     canvas = CTkCanvas(app, width=1000, height=500)
-    canvas.pack(side=TOP, anchor="n")
+    canvas.place(x=screensize[0]/2-500,y=30)
     print("Canvas has been reset")
 
 def open_command():
@@ -86,9 +90,12 @@ canvasheight = 500
 #canvas.create_rectangle(0, 0, canvaswidth, canvasheight, fill="white")
 canvas.place(x=screensize[0]/2-500,y=30)
 
-frame = CTkFrame(app, width=250*buw, height=550*buh)
-frame.pack(side=LEFT, anchor = "n")
+#height = app.winfo_screenheight()
+frame = CTkFrame(app, width=350, height=screensize[1]-290)
+frame.place(x = 180, rely=0.51, anchor = CENTER)
 
+c_frame = CTkFrame(frame, width=350, height = 35)
+c_frame.place(x = 174, rely=0.18, anchor = CENTER)
 
 wratio = canvaswidth/vid.get(cv2.CAP_PROP_FRAME_WIDTH)
 hratio = canvasheight/vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -157,41 +164,45 @@ def update_list(new_color):
 
 
 button_add_favorite = CTkButton(frame, text="Add to favorites", fg_color="gray", command=lambda: update_list(draw_color), width=150*buw)
-button_add_favorite.place(x=22*buw, y=500*buh)
+button_add_favorite.place(relx = 0.5, rely = 0.6 , anchor = CENTER)
 
-button_red = CTkButton(frame,text="", fg_color=favorites_list[0], command=lambda: change_color(favorites_list[0]),width=30*buw)
-button_green = CTkButton(frame,text="", fg_color=favorites_list[1], command=lambda: change_color(favorites_list[1]),width=30*buw)
-button_blue = CTkButton(frame,text="", fg_color=favorites_list[2], command=lambda: change_color(favorites_list[2]),width=30*buw)
-button_black = CTkButton(frame,text="", fg_color=favorites_list[3], command=lambda: change_color(favorites_list[3]),width=30*buw)
-button_yellow = CTkButton(frame,text="", fg_color=favorites_list[4], command=lambda: change_color(favorites_list[4]),width=30*buw)
-button_magenta = CTkButton(frame,text="", fg_color=favorites_list[5], command=lambda: change_color(favorites_list[5]),width=30*buw)
-button_brown = CTkButton(frame,text="", fg_color=favorites_list[6], command=lambda: change_color(favorites_list[6]),width=30*buw)
+button_red = CTkButton(c_frame,text="", fg_color=favorites_list[0], command=lambda: change_color(favorites_list[0]),width=30*buw)
+button_green = CTkButton(c_frame,text="", fg_color=favorites_list[1], command=lambda: change_color(favorites_list[1]),width=30*buw)
+button_blue = CTkButton(c_frame,text="", fg_color=favorites_list[2], command=lambda: change_color(favorites_list[2]),width=30*buw)
+button_black = CTkButton(c_frame,text="", fg_color=favorites_list[3], command=lambda: change_color(favorites_list[3]),width=30*buw)
+button_yellow = CTkButton(c_frame,text="", fg_color=favorites_list[4], command=lambda: change_color(favorites_list[4]),width=30*buw)
+button_magenta = CTkButton(c_frame,text="", fg_color=favorites_list[5], command=lambda: change_color(favorites_list[5]),width=30*buw)
+button_brown = CTkButton(c_frame,text="", fg_color=favorites_list[6], command=lambda: change_color(favorites_list[6]),width=30*buw)
 buttons_list = [button_red, button_green, button_blue, button_black, button_yellow, button_magenta, button_brown]
+offset = 35
+a_offset = 35
+color_height = 120
+button_red.place(x = offset *1 + a_offset, rely = 0.5, anchor = CENTER)
+button_green.place(x= offset *2 + a_offset , rely = 0.5, anchor = CENTER)
+button_blue.place(x= offset *3 + a_offset, rely = 0.5, anchor = CENTER)
+button_black.place(x= offset *4 + a_offset, rely = 0.5, anchor = CENTER)
+button_yellow.place(x= offset *5 + a_offset, rely = 0.5, anchor = CENTER)
+button_magenta.place(x= offset *6 + a_offset, rely = 0.5, anchor = CENTER)
+button_brown.place(x= offset *7 + a_offset, rely = 0.5, anchor = CENTER)
 
-button_red.place(x=5*buw, y=100*buh)
-button_green.place(x=35*buw, y=100*buh)
-button_blue.place(x=65*buw, y=100*buh)
-button_black.place(x=95*buw, y=100*buh)
-button_yellow.place(x=125*buw, y=100*buh)
-button_magenta.place(x=155*buw, y=100*buh)
-button_brown.place(x=185*buw, y=100*buh)
+font_scale = CTkSlider(frame, from_=1, to=30, width=250)
+font_scale.place(relx = 0.5, y=50, anchor = CENTER)
+font_scale.set(15)
 
-font_scale = CTkSlider(frame, from_=1, to=30, width=185*buw)
-font_scale.place(x=5*buw, y=50*buh)
-font_scale.set(10)
-
+textx = 95
 draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w')
-draw_sizetext.place(x=50*buw, y=20*buh)
+draw_sizetext.place(relx = 0.5, y=20, anchor = CENTER )
 
+""" 
 catlabel = CTkLabel(app,text="")
 cat_image = CTkImage(light_image=Image.open("kissa.png"), dark_image=Image.open("kissa.png"),size=(300*buw,300*buh))
 
 catlabel.configure(image=cat_image,height=100/screenscale,width=100/screenscale)
 
-catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8)
+catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8) """
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
 draw_colortext = CTkLabel(frame,text="Draw color")
-draw_colortext.place(x=65*buw, y=70*buh)
+draw_colortext.place(relx = 0.5, y=100, anchor = CENTER)
 
 open_camera()
 #print(tuple(point))
@@ -199,7 +210,7 @@ open_camera()
 #canvas.create_line(point[0], point[1], point[0]+1, point[1])
 
 colorpicker = CTkColorPicker(frame, width=250*buw, height=250*buh,orientation="horizontal",  command=lambda e: change_color(e) )
-colorpicker.place(x=5*buw, y=130*buh)
+colorpicker.place(relx = 0.5, rely=0.4, anchor = CENTER)
 colorpicker.slider.configure(height = 20*buh)
 
 #deactivate_automatic_dpi_awareness()
