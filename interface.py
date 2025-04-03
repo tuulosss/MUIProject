@@ -6,6 +6,7 @@ import find_brightest as bright
 from CTkColorPicker import *
 import os
 import datetime
+from tkinter import filedialog as fd
 
 drawing = True
 
@@ -49,6 +50,7 @@ menu.add_cascade(label="File", menu=file_menu)
 
 def new_command():
     global canvas
+    stop_drawing()
     canvas.destroy()
     canvas = CTkCanvas(app, width=1000, height=500)
     canvas.place(x=screensize[0]/2-500,y=30)
@@ -56,9 +58,9 @@ def new_command():
 
 def open_command():
     global canvas
-
+    path = fd.askopenfilename()
     try:
-        img_path = "kissa2.png"
+        img_path = path
         im = Image.open(img_path)
         img_width, img_height = im.size
         if img_width > 1000 or img_height > 500:
@@ -83,15 +85,20 @@ def save_command():
     imagewidth = canvas.winfo_width()
     imageheight = canvas.winfo_height()
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    filename = f"LightDraw_{timestamp}.png"
-    temp_path = os.getcwd()+"\\saved images"
-    file_path = os.path.join(temp_path,filename)
-    image = ImageGrab.grab(bbox=(canvas_x, canvas_y, canvas_x+imagewidth, canvas_y+imageheight))
 
-    image.save(file_path)
-    print(f"Image saved! Path: {file_path}")
-    
-# Add menu options
+      # Valitse tallennuspolku
+    file_path = filedialog.asksaveasfilename(
+        initialfile=f"LightDraw_{timestamp}.png",
+        defaultextension=".png",
+        filetypes=[("PNG Files", "*.png")]
+    )
+
+    if file_path:  # Tarkistetaan, että käyttäjä valitsi polun
+        image = ImageGrab.grab(bbox=(canvas_x, canvas_y, canvas_x+imagewidth, canvas_y+imageheight))
+        image.save(file_path)  # Tallennetaan kuva
+        print(f"Image saved! Path: {file_path}")
+
+
 file_menu.add_command(label="New", command=new_command)
 file_menu.add_command(label="Open", command=open_command)
 file_menu.add_command(label="Save", command=save_command)
@@ -195,9 +202,10 @@ def stop_drawing():
     global drawing
     drawing = not drawing
     if not drawing:
-        button_stop_drawing.configure(text="Start drawing")
+        button_stop_drawing.configure(text="Start drawing",fg_color="#4a4561")
+        
     else:
-        button_stop_drawing.configure(text="Stop drawing")
+        button_stop_drawing.configure(text="Stop drawing",fg_color="gray")
 
 
 
