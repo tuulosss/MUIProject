@@ -215,7 +215,7 @@ font_scale.set(15)
 
 textx = 95
 draw_sizetext = CTkLabel(frame,text="Draw size: "+str(font_scale.get()), justify=CENTER, anchor='w', font=("Arial", 20, "bold"),)
-draw_sizetext.place(relx = 0.5, y=20, anchor = CENTER )
+draw_sizetext.place(relx = 0.5, rely = 0.02, anchor = CENTER )
 
 """ 
 catlabel = CTkLabel(app,text="")
@@ -227,7 +227,7 @@ catlabel.place(x=1220*buw,y=20*buh)
 catlabel.pack(side=RIGHT, anchor="n", padx=8, pady=8) """
 #draw_sizetext._label.place(relx=0,anchor='w',y=290)
 draw_colortext = CTkLabel(frame,text="Draw color", font=("Arial", 20, "bold"))
-draw_colortext.place(relx = 0.5, y=100, anchor = CENTER)
+draw_colortext.place(relx = 0.5, rely = 0.14, anchor = CENTER)
 
 open_camera()
 #print(tuple(point))
